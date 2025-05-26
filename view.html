@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Person</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-background text-foreground min-h-screen flex flex-col">
+    <header class="bg-card border-b border-border shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 id="page-title-header" class="text-2xl font-bold text-primary">Person Details</h1>
+            <nav class="space-x-4">
+                <a href="index.html" class="text-muted-foreground hover:text-primary">Generator</a>
+                <a href="bulk.html" class="text-muted-foreground hover:text-primary">Bulk Generate</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <section id="person-viewer" class="bg-card p-6 rounded-lg shadow-lg">
+            <div class="flex justify-between items-center mb-6 border-b border-border pb-3">
+                <h2 id="view-person-name" class="text-2xl font-bold text-primary"></h2>
+                <div>
+                    <button id="edit-btn">Edit Details</button>
+                    <button id="save-btn" class="hidden bg-accent text-accent-foreground hover:bg-opacity-80">Save to URL</button>
+                </div>
+            </div>
+
+            <div id="view-person-details" class="space-y-3 text-sm">
+            </div>
+
+            <form id="edit-person-form" class="hidden space-y-4">
+            </form>
+        </section>
+    </main>
+
+    <footer class="bg-muted py-6 text-center border-t border-border">
+        <p class="text-muted-foreground text-sm">View & Edit Mode</p>
+    </footer>
+    <script src="js/view.js"></script>
+</body>
+</html>

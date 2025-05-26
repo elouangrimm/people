@@ -1,0 +1,12 @@
+{
+    "name": "person-gen",
+    "version": "1.0.0",
+    "description": "Generates fake person data using Faker.js",
+    "scripts": {
+        "dev": "tailwindcss -i ./css/tailwind-source.css -o ./css/style.css --watch",
+        "build": "tailwindcss -i ./css/tailwind-source.css -o ./css/style.css --minify"
+    },
+    "devDependencies": {
+        "tailwindcss": "^4.0.0-alpha.13"
+    }
+}
