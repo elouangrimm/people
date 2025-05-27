@@ -70,7 +70,28 @@
         <p>Powered by Faker.js</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@faker-js/faker@9.8.0/dist/faker.js"></script>
+    <script type="module">
+      try {
+        const fakerModule = await import('https://esm.sh/@faker-js/faker');
+        window.faker = fakerModule.faker;
+
+        if (!window.faker) {
+            window.faker = fakerModule.default || fakerModule;
+        }
+
+        if (!window.faker || typeof window.faker.person === 'undefined') {
+             console.error('Failed to correctly assign faker to window.faker. Loaded module:', fakerModule);
+             alert('Critical Error: Could not correctly initialize Faker.js. Check console.');
+        } else {
+            console.log('Faker.js v9.8.0 loaded successfully and assigned to window.faker:', window.faker);
+        }
+
+      } catch (error) {
+        console.error('Failed to load Faker.js from esm.sh:', error);
+        alert('Critical Error: Could not load Faker.js library. Please check the console for details.');
+      }
+    </script>
+
     <script src="js/personGenerator.js"></script>
     <script src="js/main.js"></script>
 </body>
