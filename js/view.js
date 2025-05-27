@@ -82,7 +82,6 @@ function displayDetails(data) {
     detailsGroup.appendChild(displayDetailItem('Employment', `${escapeHtml(data.occupation)} at ${escapeHtml(data.company)}`));
     detailsGroup.appendChild(displayDetailItem('Physical', `Height: ${escapeHtml(data.height)}, Weight: ${escapeHtml(data.weight)}`));
     detailsGroup.appendChild(displayDetailItem('Vehicle', data.vehicle));
-    detailsGroup.appendChild(displayDetailItem('GUID', data.guid));
     
     detailGrid.appendChild(detailsGroup);
     personDetailsDiv.appendChild(detailGrid);
@@ -157,7 +156,6 @@ function populateEditForm(data) {
         {label: 'Height String', id: 'height', value: data.height},
         {label: 'Weight String', id: 'weight', value: data.weight},
         {label: 'Vehicle', id: 'vehicle', value: data.vehicle},
-        {label: 'GUID', id: 'guid', value: data.guid}
     ];
 
     fieldsToEdit.forEach(field => {

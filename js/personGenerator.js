@@ -74,7 +74,6 @@ function generatePersonData(options = {}) {
         heightCm: heightCm,
         weightKg: weightKg,
         vehicle: `${faker.vehicle.manufacturer()} ${faker.vehicle.model()} ${faker.date.past({years: 10}).getFullYear()}`,
-        guid: faker.string.uuid(),
         _raw: {
             gender: gender,
             targetAge: targetAge,

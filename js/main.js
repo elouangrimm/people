@@ -78,7 +78,6 @@ function initializeMainPage() {
             personDetailsDisplay.appendChild(displayDetailItem('Employment', `${data.occupation} at ${data.company}`));
             personDetailsDisplay.appendChild(displayDetailItem('Physical', `Height: ${data.height}, Weight: ${data.weight}`));
             personDetailsDisplay.appendChild(displayDetailItem('Vehicle', data.vehicle));
-            personDetailsDisplay.appendChild(displayDetailItem('GUID', data.guid));
         }
 
         const params = new URLSearchParams();
