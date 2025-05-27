@@ -1,11 +1,15 @@
-function generatePersonData(options = {}) {
-    const { gender = "male", targetAge = 30, locale = "en" } = options;
+// js/personGenerator.js
 
-    if (typeof window.faker === "undefined") {
-        console.error("Faker.js library is not available on window.faker!");
-        alert(
-            "Critical Error: The Faker.js data generation library did not load correctly. Please check your internet connection or ad-blocker configuration and refresh the page."
-        );
+// This function is defined but relies on window.faker being set before it's called.
+function generatePersonData(options = {}) {
+    const { gender = 'male', targetAge = 30, locale = 'en' } = options;
+
+    if (typeof window.faker === 'undefined' || typeof window.faker.person === 'undefined') {
+        console.error("generatePersonData Error: Faker.js (window.faker) is not available or not fully initialized!");
+        // The calling functions (initializeMainPage/initializeBulkPage) should handle this
+        // and prevent calling generatePersonData if Faker isn't ready.
+        // However, if called directly, this check provides a fallback.
+        return null;
     }
     const { faker } = window;
 
@@ -13,33 +17,21 @@ function generatePersonData(options = {}) {
         try {
             faker.setLocale(locale);
         } catch (e) {
-            console.warn(
-                `Locale ${locale} not found, using ${faker.locale}. Error: ${e.message}`
-            );
-            if (faker.locale !== "en") {
-                try {
-                    faker.setLocale("en");
-                } catch (e2) {
-                    console.error("Failed to set fallback locale 'en'");
-                }
+            console.warn(`Locale ${locale} not found, using ${faker.locale}. Error: ${e.message}`);
+            if (faker.locale !== 'en') {
+                try { faker.setLocale('en'); } catch (e2) { console.error("Failed to set fallback locale 'en'");}
             }
         }
     }
 
-    const sex = gender === "female" ? "female" : "male";
+    const sex = gender === 'female' ? 'female' : 'male';
     const firstName = faker.person.firstName(sex);
     const lastName = faker.person.lastName(sex);
     const middleInitial = faker.string.alpha(1).toUpperCase();
     const fullName = `${firstName} ${middleInitial}. ${lastName}`;
 
-    const birthDate = faker.date.birthdate({
-        min: targetAge,
-        max: targetAge,
-        mode: "age",
-    });
-    const age = Math.floor(
-        (new Date() - new Date(birthDate)) / (1000 * 60 * 60 * 24 * 365.25)
-    );
+    const birthDate = faker.date.birthdate({ min: targetAge, max: targetAge, mode: 'age' });
+    const age = Math.floor((new Date() - new Date(birthDate)) / (1000 * 60 * 60 * 24 * 365.25));
 
     const streetAddress = faker.location.streetAddress();
     const city = faker.location.city();
@@ -55,13 +47,13 @@ function generatePersonData(options = {}) {
     const heightInches = Math.round(heightInchesTotal % 12);
     const weightLbs = (weightKg * 2.20462).toFixed(1);
 
-    const upsPart1 = faker.string.alphanumeric(3, { casing: "upper" });
-    const upsPart2 = faker.string.alphanumeric(3, { casing: "upper" });
-    const upsPart3 = faker.string.alphanumeric(2, { casing: "upper" });
-    const upsPart4 = faker.string.alphanumeric(3, { casing: "upper" });
-    const upsPart5 = faker.string.alphanumeric(3, { casing: "upper" });
-    const upsPart6 = faker.string.alphanumeric(3, { casing: "upper" });
-    const upsPart7 = faker.string.alphanumeric(1, { casing: "upper" });
+    const upsPart1 = faker.string.alphanumeric(3, {casing: 'upper'});
+    const upsPart2 = faker.string.alphanumeric(3, {casing: 'upper'});
+    const upsPart3 = faker.string.alphanumeric(2, {casing: 'upper'});
+    const upsPart4 = faker.string.alphanumeric(3, {casing: 'upper'});
+    const upsPart5 = faker.string.alphanumeric(3, {casing: 'upper'});
+    const upsPart6 = faker.string.alphanumeric(3, {casing: 'upper'});
+    const upsPart7 = faker.string.alphanumeric(1, {casing: 'upper'});
     const upsTracking = `1Z ${upsPart1} ${upsPart2} ${upsPart3} ${upsPart4} ${upsPart5} ${upsPart6} ${upsPart7}`;
 
     return {
@@ -73,33 +65,19 @@ function generatePersonData(options = {}) {
         state: state,
         zipCode: zipCode,
         motherMaidenName: faker.person.lastName(),
-        ssn: `${faker.string.numeric(3)}-${faker.string.numeric(
-            2
-        )}-${faker.string.numeric(4)}`,
-        geo: {
-            lat: faker.location.latitude().toFixed(6),
-            lon: faker.location.longitude().toFixed(6),
-        },
+        ssn: `${faker.string.numeric(3)}-${faker.string.numeric(2)}-${faker.string.numeric(4)}`,
+        geo: { lat: faker.location.latitude().toFixed(6), lon: faker.location.longitude().toFixed(6) },
         phone: faker.phone.number(),
-        countryCode: locale.toUpperCase().includes("US")
-            ? "1"
-            : faker.location.countryCode("alpha-2"),
-        birthday: birthDate.toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-        }),
+        countryCode: locale.toUpperCase().includes('US') ? '1' : faker.location.countryCode('alpha-2'),
+        birthday: birthDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
         age: `${age} years old`,
         email: faker.internet.email({ firstName, lastName }),
         username: faker.internet.userName({ firstName, lastName }),
         password: faker.internet.password(12, false, /[a-zA-Z0-9!@#$%^&*]/),
         userAgent: faker.internet.userAgent(),
-        creditCardType: "Visa",
-        creditCardNum: faker.finance.creditCardNumber("visa"),
-        creditCardExpires: faker.date
-            .future({ years: 4 })
-            .toLocaleDateString("en-US", { month: "numeric", year: "2-digit" })
-            .replace("/20", "/"),
+        creditCardType: 'Visa',
+        creditCardNum: faker.finance.creditCardNumber('visa'),
+        creditCardExpires: faker.date.future({ years: 4 }).toLocaleDateString('en-US', {month: 'numeric', year: '2-digit'}).replace('/20','/'),
         creditCardCvv: faker.finance.creditCardCVV(),
         company: faker.company.name(),
         occupation: faker.person.jobTitle(),
@@ -108,9 +86,7 @@ function generatePersonData(options = {}) {
         heightCm: heightCm,
         weightKg: weightKg,
         upsTracking: upsTracking,
-        vehicle: `${faker.vehicle.manufacturer()} ${faker.vehicle.model()} ${faker.date
-            .past({ years: 10 })
-            .getFullYear()}`,
+        vehicle: `${faker.vehicle.manufacturer()} ${faker.vehicle.model()} ${faker.date.past({years: 10}).getFullYear()}`,
         guid: faker.string.uuid(),
         _raw: {
             gender: gender,
@@ -118,7 +94,7 @@ function generatePersonData(options = {}) {
             locale: locale,
             firstName: firstName,
             lastName: lastName,
-            birthDate: birthDate.toISOString().split("T")[0],
-        },
+            birthDate: birthDate.toISOString().split('T')[0]
+        }
     };
 }

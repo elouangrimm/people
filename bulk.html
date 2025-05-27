@@ -6,7 +6,6 @@
     <title>Bulk Person Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/7.6.0/faker.min.js"></script>
 </head>
 <body>
     <header>
@@ -66,7 +65,34 @@
     <footer>
         <p>Bulk Generation Mode</p>
     </footer>
+
     <script src="js/personGenerator.js"></script>
     <script src="js/bulk.js"></script>
+
+    <script type="module">
+      (async () => {
+        try {
+          console.log('Module script started: Importing Faker.js v9.8.0...');
+          const fakerModule = await import('https://esm.sh/@faker-js/faker@9.8.0');
+          window.faker = fakerModule.faker || fakerModule.default || fakerModule;
+
+          if (window.faker && typeof window.faker.person !== 'undefined') {
+            console.log('Faker.js v9.8.0 loaded and assigned to window.faker:', window.faker);
+            if (typeof window.initializeBulkPage === 'function') {
+              window.initializeBulkPage();
+            } else {
+              console.error('Error: initializeBulkPage function not found.');
+              alert('Application Error: Bulk page initialization script not found.');
+            }
+          } else {
+            console.error('Error: Failed to correctly assign or initialize Faker.js on window. Loaded module structure:', fakerModule);
+            alert('Critical Error: Could not initialize Faker.js from module. Check console.');
+          }
+        } catch (error) {
+          console.error('Error: Failed to load Faker.js module:', error);
+          alert('Critical Error: Could not load the Faker.js library. The application cannot run. Please check the console for details and try refreshing.');
+        }
+      })();
+    </script>
 </body>
 </html>

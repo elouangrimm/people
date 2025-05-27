@@ -67,34 +67,36 @@
     </main>
 
     <footer>
-        <p>Powered by Faker.js</p>
+        <p>Powered by Faker.js & Vanilla CSS</p>
     </footer>
-
-    <script type="module">
-      try {
-        const fakerModule = await import('https://esm.sh/@faker-js/faker');
-        window.faker = fakerModule.faker;
-
-        if (!window.faker) {
-            window.faker = fakerModule.default || fakerModule;
-        }
-
-        if (!window.faker || typeof window.faker.person === 'undefined') {
-             console.error('Failed to correctly assign faker to window.faker. Loaded module:', fakerModule);
-             alert('Critical Error: Could not correctly initialize Faker.js. Check console.');
-        } else {
-            console.log('Faker.js v9.8.0 loaded successfully and assigned to window.faker:', window.faker);
-        }
-
-        console.log("LOADED!!!!")
-
-      } catch (error) {
-        console.error('Failed to load Faker.js from esm.sh:', error);
-        alert('Critical Error: Could not load Faker.js library. Please check the console for details.');
-      }
-    </script>
 
     <script src="js/personGenerator.js"></script>
     <script src="js/main.js"></script>
+
+    <script type="module">
+      (async () => {
+        try {
+          console.log('Module script started: Importing Faker.js v9.8.0...');
+          const fakerModule = await import('https://esm.sh/@faker-js/faker@9.8.0');
+          window.faker = fakerModule.faker || fakerModule.default || fakerModule;
+
+          if (window.faker && typeof window.faker.person !== 'undefined') {
+            console.log('Faker.js v9.8.0 loaded and assigned to window.faker:', window.faker);
+            if (typeof window.initializeMainPage === 'function') {
+              window.initializeMainPage();
+            } else {
+              console.error('Error: initializeMainPage function not found. Make sure main.js is loaded correctly before this module script attempts to call it.');
+              alert('Application Error: Main page initialization script not found.');
+            }
+          } else {
+            console.error('Error: Failed to correctly assign or initialize Faker.js on window. Loaded module structure:', fakerModule);
+            alert('Critical Error: Could not initialize Faker.js from module. Check console for details.');
+          }
+        } catch (error) {
+          console.error('Error: Failed to load Faker.js module:', error);
+          alert('Critical Error: Could not load the Faker.js library. The application cannot run. Please check the console for details and try refreshing.');
+        }
+      })();
+    </script>
 </body>
 </html>

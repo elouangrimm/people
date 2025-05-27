@@ -1,4 +1,3 @@
-javascript
 document.addEventListener('DOMContentLoaded', () => {
 const personNameDisplay = document.getElementById('view-person-name');
 const pageTitleHeader = document.getElementById('page-title-header');

@@ -1,4 +1,17 @@
-document.addEventListener('DOMContentLoaded', () => {
+// js/bulk.js
+
+function initializeBulkPage() {
+    if (typeof window.faker === 'undefined' || typeof window.faker.person === 'undefined') {
+        console.error("Bulk Page Error: Faker.js is not ready or not fully initialized on window.faker.");
+        alert("Critical Application Error: Core data generation library (Faker.js) failed to load for the bulk page. Please try refreshing. Check console for details.");
+        const bulkTableHeader = document.querySelector('#bulk-table thead');
+        if(bulkTableHeader) bulkTableHeader.innerHTML = `<tr><th style="color: var(--destructive);">Error: Faker.js library did not load.</th></tr>`;
+        const exportCsvBtn = document.getElementById('export-csv-btn');
+        if(exportCsvBtn) exportCsvBtn.disabled = true;
+        return;
+    }
+    console.log("Bulk Page: Initializing with Faker.js...");
+
     const bulkGenerateBtn = document.getElementById('bulk-generate-btn');
     const exportCsvBtn = document.getElementById('export-csv-btn');
     const bulkCountInput = document.getElementById('bulk-count');
@@ -6,18 +19,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const bulkTableBody = document.querySelector('#bulk-table tbody');
     const bulkTableHeader = document.querySelector('#bulk-table thead');
 
+    if (typeof generatePersonData !== 'function') {
+        console.error("Bulk Page Error: generatePersonData function is not defined. Ensure personGenerator.js is loaded.");
+        alert("Critical Application Error: Core data generation function missing for bulk operations.");
+        return;
+    }
+
     let generatedBulkData = [];
 
     bulkGenerateBtn.addEventListener('click', () => {
         const count = parseInt(bulkCountInput.value, 10);
         const locale = bulkCountrySelect.value;
         generatedBulkData = [];
-        bulkTableBody.innerHTML = '';
-        bulkTableHeader.innerHTML = '';
+        if(bulkTableBody) bulkTableBody.innerHTML = '';
+        if(bulkTableHeader) bulkTableHeader.innerHTML = '';
 
         if (count <= 0) return;
 
         const samplePerson = generatePersonData({locale: locale});
+        if (!samplePerson) {
+            if(bulkTableHeader) bulkTableHeader.innerHTML = `<tr><th style="color: var(--destructive);">Error: Could not generate sample data. Faker.js might have issues.</th></tr>`;
+            if(exportCsvBtn) exportCsvBtn.disabled = true;
+            return;
+        }
+
         let finalHeaders = [];
         Object.keys(samplePerson).forEach(h => {
             if (h === 'geo' && samplePerson.geo) {
@@ -29,22 +54,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        bulkTableHeader.innerHTML = `<tr>${finalHeaders.map(h => `<th class="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">${h.replace(/([A-Z])/g, ' $1').trim()}</th>`).join('')}</tr>`;
+        if(bulkTableHeader) bulkTableHeader.innerHTML = `<tr>${finalHeaders.map(h => `<th class="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">${h.replace(/([A-Z])/g, ' $1').trim()}</th>`).join('')}</tr>`;
 
         const displayCount = Math.min(count, 10);
 
         for (let i = 0; i < count; i++) {
             const gender = Math.random() > 0.5 ? 'male' : 'female';
-            const targetAge = faker.number.int({ min: 18, max: 70 });
+            const targetAge = window.faker.number.int({ min: 18, max: 70 });
             const person = generatePersonData({ gender, targetAge, locale });
+
+            if (!person) {
+                console.error("Skipping a person generation due to Faker.js issue during bulk operation.");
+                continue;
+            }
             generatedBulkData.push(person);
 
-            if (i < displayCount) {
+            if (i < displayCount && bulkTableBody) {
                 const row = document.createElement('tr');
-                row.className = i % 2 === 0 ? 'bg-card' : 'bg-muted';
+                row.className = i % 2 === 0 ? '' : 'bg-muted-alt'; // Simplified or use CSS for :nth-child
                 finalHeaders.forEach(header => {
                     const cell = document.createElement('td');
-                    cell.className = 'px-4 py-2 whitespace-nowrap';
                     let cellValue = '';
                     if (header === 'geo_lat') {
                         cellValue = person.geo ? person.geo.lat : '';
@@ -61,13 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 bulkTableBody.appendChild(row);
             }
         }
-        exportCsvBtn.disabled = false;
+        if (generatedBulkData.length > 0) {
+            if(exportCsvBtn) exportCsvBtn.disabled = false;
+        } else if (count > 0) {
+             if(bulkTableBody) bulkTableBody.innerHTML = `<tr><td colspan="${finalHeaders.length || 1}" style="color: var(--destructive); text-align: center;">Could not generate any data. Faker.js library might not have loaded.</td></tr>`;
+             if(exportCsvBtn) exportCsvBtn.disabled = true;
+        }
     });
 
-    exportCsvBtn.addEventListener('click', () => {
-        if (generatedBulkData.length === 0) return;
-        exportToCsv('generated_persons.csv', generatedBulkData);
-    });
+    if(exportCsvBtn) {
+        exportCsvBtn.addEventListener('click', () => {
+            if (generatedBulkData.length === 0) return;
+            exportToCsv('generated_persons.csv', generatedBulkData);
+        });
+    }
 
     function exportToCsv(filename, rows) {
         if (!rows || !rows.length) {
@@ -103,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         ].join('\n');
 
-        const blob = new Blob([String.fromCharCode(0xFEFF), csvContent], { type: 'text/csv;charset=utf-8;' }); // Added BOM for Excel
+        const blob = new Blob([String.fromCharCode(0xFEFF), csvContent], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         if (link.download !== undefined) {
             const url = URL.createObjectURL(blob);
@@ -115,4 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.removeChild(link);
         }
     }
-});
+}
+
+window.initializeBulkPage = initializeBulkPage;
