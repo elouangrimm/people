@@ -8,28 +8,28 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/7.6.0/faker.min.js"></script>
 </head>
-<body class="bg-background text-foreground min-h-screen flex flex-col">
-    <header class="bg-card border-b border-border shadow-sm">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-primary">Bulk Person Generator</h1>
-            <nav class="space-x-4">
-                <a href="index.html" class="text-muted-foreground hover:text-primary">Single Person</a>
-                <a href="bulk.html" class="text-primary hover:text-opacity-70 font-medium">Bulk Generate</a>
+<body>
+    <header>
+        <div class="container">
+            <h1>Bulk Person Generator</h1>
+            <nav>
+                <a href="index.html">Single Person</a>
+                <a href="bulk.html" class="active">Bulk Generate</a>
             </nav>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-8 flex-grow">
-        <section id="bulk-controls" class="bg-card p-6 rounded-lg shadow-md mb-8">
-            <h2 class="text-xl font-semibold mb-4 text-card-foreground">Generate Multiple Persons</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+    <main class="container">
+        <section id="bulk-controls">
+            <h2>Generate Multiple Persons</h2>
+            <div class="form-grid">
                 <div>
                     <label for="bulk-count">Number of persons:</label>
-                    <input type="number" id="bulk-count" value="10" min="1" max="1000" class="w-full">
+                    <input type="number" id="bulk-count" value="10" min="1" max="1000">
                 </div>
                 <div>
                     <label for="bulk-country">Country (Locale):</label>
-                    <select id="bulk-country" class="w-full">
+                    <select id="bulk-country">
                         <option value="en">English (Generic)</option>
                         <option value="en_US">English (US)</option>
                         <option value="en_GB">English (UK)</option>
@@ -42,28 +42,29 @@
                         <option value="pt_BR">Portuguese (Brazil)</option>
                     </select>
                 </div>
+                <div></div>
             </div>
-            <div class="space-x-3">
+            <div class="space-x-buttons">
                 <button id="bulk-generate-btn">Generate</button>
-                <button id="export-csv-btn" disabled class="bg-accent text-accent-foreground hover:bg-opacity-80">Export as CSV</button>
+                <button id="export-csv-btn" disabled class="accent-button">Export as CSV</button>
             </div>
         </section>
 
-        <section id="bulk-results" class="bg-card p-6 rounded-lg shadow-md overflow-x-auto">
-            <h3 class="text-lg font-semibold mb-4 text-card-foreground">Generated Data Preview (First 10)</h3>
-            <div class="overflow-x-auto">
-                <table id="bulk-table" class="min-w-full divide-y divide-border text-sm">
-                    <thead class="bg-muted">
+        <section id="bulk-results">
+            <h3>Generated Data Preview (First 10)</h3>
+            <div class="table-container">
+                <table id="bulk-table">
+                    <thead>
                     </thead>
-                    <tbody class="divide-y divide-border">
+                    <tbody>
                     </tbody>
                 </table>
             </div>
         </section>
     </main>
 
-    <footer class="bg-muted py-6 text-center border-t border-border">
-        <p class="text-muted-foreground text-sm">Bulk Generation Mode</p>
+    <footer>
+        <p>Bulk Generation Mode</p>
     </footer>
     <script src="js/personGenerator.js"></script>
     <script src="js/bulk.js"></script>

@@ -24,7 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function displayDetailItem(label, value) {
-        return `<div class="break-words"><strong class="block text-muted-foreground">${label}:</strong> <span class="text-card-foreground">${value}</span></div>`;
+        // Create a div for each detail item to allow for better styling control if needed
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('detail-item'); // Add a class for potential styling
+        itemDiv.innerHTML = `<strong>${label}:</strong> <span>${value.replace(/\n/g, '<br>')}</span>`;
+        return itemDiv;
     }
 
     function displayPerson(data) {
@@ -32,26 +36,27 @@ document.addEventListener('DOMContentLoaded', () => {
         personAvatar.alt = `${data.fullName} avatar`;
         personNameDisplay.textContent = data.fullName;
 
-        personDetailsDisplay.innerHTML = `
-            ${displayDetailItem('Address', data.address.replace(/\n/g, '<br>'))}
-            ${displayDetailItem("Mother's Maiden Name", data.motherMaidenName)}
-            ${displayDetailItem('SSN', data.ssn)}
-            ${displayDetailItem('Geo Coordinates', `${data.geo.lat}, ${data.geo.lon}`)}
-            ${displayDetailItem('Phone', data.phone)}
-            ${displayDetailItem('Country Code', data.countryCode)}
-            ${displayDetailItem('Birthday', data.birthday)}
-            ${displayDetailItem('Age', data.age)}
-            ${displayDetailItem('Email', data.email)}
-            ${displayDetailItem('Username', data.username)}
-            ${displayDetailItem('Password', data.password)}
-            ${displayDetailItem('User Agent', data.userAgent)}
-            ${displayDetailItem('Finance', `${data.creditCardType} ${data.creditCardNum} (Expires: ${data.creditCardExpires}, CVV: ${data.creditCardCvv})`)}
-            ${displayDetailItem('Employment', `${data.occupation} at ${data.company}`)}
-            ${displayDetailItem('Physical', `Height: ${data.height}, Weight: ${data.weight}`)}
-            ${displayDetailItem('UPS Tracking', data.upsTracking)}
-            ${displayDetailItem('Vehicle', data.vehicle)}
-            ${displayDetailItem('GUID', data.guid)}
-        `;
+        personDetailsDisplay.innerHTML = ''; // Clear previous details
+
+        personDetailsDisplay.appendChild(displayDetailItem('Address', data.address));
+        personDetailsDisplay.appendChild(displayDetailItem("Mother's Maiden Name", data.motherMaidenName));
+        personDetailsDisplay.appendChild(displayDetailItem('SSN', data.ssn));
+        personDetailsDisplay.appendChild(displayDetailItem('Geo Coordinates', `${data.geo.lat}, ${data.geo.lon}`));
+        personDetailsDisplay.appendChild(displayDetailItem('Phone', data.phone));
+        personDetailsDisplay.appendChild(displayDetailItem('Country Code', data.countryCode));
+        personDetailsDisplay.appendChild(displayDetailItem('Birthday', data.birthday));
+        personDetailsDisplay.appendChild(displayDetailItem('Age', data.age));
+        personDetailsDisplay.appendChild(displayDetailItem('Email', data.email));
+        personDetailsDisplay.appendChild(displayDetailItem('Username', data.username));
+        personDetailsDisplay.appendChild(displayDetailItem('Password', data.password));
+        personDetailsDisplay.appendChild(displayDetailItem('User Agent', data.userAgent));
+        personDetailsDisplay.appendChild(displayDetailItem('Finance', `${data.creditCardType} ${data.creditCardNum} (Expires: ${data.creditCardExpires}, CVV: ${data.creditCardCvv})`));
+        personDetailsDisplay.appendChild(displayDetailItem('Employment', `${data.occupation} at ${data.company}`));
+        personDetailsDisplay.appendChild(displayDetailItem('Physical', `Height: ${data.height}, Weight: ${data.weight}`));
+        personDetailsDisplay.appendChild(displayDetailItem('UPS Tracking', data.upsTracking));
+        personDetailsDisplay.appendChild(displayDetailItem('Vehicle', data.vehicle));
+        personDetailsDisplay.appendChild(displayDetailItem('GUID', data.guid));
+
 
         const params = new URLSearchParams();
         Object.keys(data).forEach(key => {
