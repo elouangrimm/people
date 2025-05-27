@@ -1,5 +1,11 @@
 function generatePersonData(options = {}) {
     const { gender = 'male', targetAge = 30, locale = 'en' } = options;
+    
+    if (typeof window.faker === 'undefined') {
+        console.error("Faker.js library is not loaded!");
+        alert("Critical Error: The Faker.js data generation library did not load. Please check your internet connection or ad-blocker configuration and refresh the page.");
+        return null;
+    }
     const { faker } = window;
 
     if (faker.locale !== locale) {
