@@ -80,7 +80,6 @@ function initializeMainPage() {
             personDetailsDisplay.appendChild(displayDetailItem('Finance', `${data.creditCardType} ${data.creditCardNum} (Expires: ${data.creditCardExpires}, CVV: ${data.creditCardCvv})`));
             personDetailsDisplay.appendChild(displayDetailItem('Employment', `${data.occupation} at ${data.company}`));
             personDetailsDisplay.appendChild(displayDetailItem('Physical', `Height: ${data.height}, Weight: ${data.weight}`));
-            personDetailsDisplay.appendChild(displayDetailItem('UPS Tracking', data.upsTracking));
             personDetailsDisplay.appendChild(displayDetailItem('Vehicle', data.vehicle));
             personDetailsDisplay.appendChild(displayDetailItem('GUID', data.guid));
         }

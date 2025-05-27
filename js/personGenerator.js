@@ -47,17 +47,8 @@ function generatePersonData(options = {}) {
     const heightInches = Math.round(heightInchesTotal % 12);
     const weightLbs = (weightKg * 2.20462).toFixed(1);
 
-    const upsPart1 = faker.string.alphanumeric(3, {casing: 'upper'});
-    const upsPart2 = faker.string.alphanumeric(3, {casing: 'upper'});
-    const upsPart3 = faker.string.alphanumeric(2, {casing: 'upper'});
-    const upsPart4 = faker.string.alphanumeric(3, {casing: 'upper'});
-    const upsPart5 = faker.string.alphanumeric(3, {casing: 'upper'});
-    const upsPart6 = faker.string.alphanumeric(3, {casing: 'upper'});
-    const upsPart7 = faker.string.alphanumeric(1, {casing: 'upper'});
-    const upsTracking = `1Z ${upsPart1} ${upsPart2} ${upsPart3} ${upsPart4} ${upsPart5} ${upsPart6} ${upsPart7}`;
-
     return {
-        avatar: faker.image.avatarGitHub(),
+        avatar: faker.image.personPortrait({ sex: sex }),
         fullName: fullName,
         address: fullAddress,
         streetAddress: streetAddress,
@@ -85,7 +76,6 @@ function generatePersonData(options = {}) {
         weight: `${weightLbs} pounds (${weightKg.toFixed(1)} kilograms)`,
         heightCm: heightCm,
         weightKg: weightKg,
-        upsTracking: upsTracking,
         vehicle: `${faker.vehicle.manufacturer()} ${faker.vehicle.model()} ${faker.date.past({years: 10}).getFullYear()}`,
         guid: faker.string.uuid(),
         _raw: {

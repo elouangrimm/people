@@ -84,7 +84,6 @@ function displayDetails(data) {
     detailsGroup.appendChild(displayDetailItem('Finance', `${escapeHtml(data.creditCardType)} ${escapeHtml(data.creditCardNum)} (Expires: ${escapeHtml(data.creditCardExpires)}, CVV: ${escapeHtml(data.creditCardCvv)})`));
     detailsGroup.appendChild(displayDetailItem('Employment', `${escapeHtml(data.occupation)} at ${escapeHtml(data.company)}`));
     detailsGroup.appendChild(displayDetailItem('Physical', `Height: ${escapeHtml(data.height)}, Weight: ${escapeHtml(data.weight)}`));
-    detailsGroup.appendChild(displayDetailItem('UPS Tracking', data.upsTracking));
     detailsGroup.appendChild(displayDetailItem('Vehicle', data.vehicle));
     detailsGroup.appendChild(displayDetailItem('GUID', data.guid));
     
@@ -164,7 +163,6 @@ function populateEditForm(data) {
         {label: 'Occupation', id: 'occupation', value: data.occupation},
         {label: 'Height String', id: 'height', value: data.height},
         {label: 'Weight String', id: 'weight', value: data.weight},
-        {label: 'UPS Tracking', id: 'upsTracking', value: data.upsTracking},
         {label: 'Vehicle', id: 'vehicle', value: data.vehicle},
         {label: 'GUID', id: 'guid', value: data.guid}
     ];
