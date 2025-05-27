@@ -67,8 +67,6 @@ function initializeMainPage() {
 
             personDetailsDisplay.appendChild(displayDetailItem('Address', data.address));
             personDetailsDisplay.appendChild(displayDetailItem("Mother's Maiden Name", data.motherMaidenName));
-            personDetailsDisplay.appendChild(displayDetailItem('SSN', data.ssn));
-            personDetailsDisplay.appendChild(displayDetailItem('Geo Coordinates', `${data.geo.lat}, ${data.geo.lon}`));
             personDetailsDisplay.appendChild(displayDetailItem('Phone', data.phone));
             personDetailsDisplay.appendChild(displayDetailItem('Country Code', data.countryCode));
             personDetailsDisplay.appendChild(displayDetailItem('Birthday', data.birthday));
@@ -76,7 +74,6 @@ function initializeMainPage() {
             personDetailsDisplay.appendChild(displayDetailItem('Email', data.email));
             personDetailsDisplay.appendChild(displayDetailItem('Username', data.username));
             personDetailsDisplay.appendChild(displayDetailItem('Password', data.password));
-            personDetailsDisplay.appendChild(displayDetailItem('User Agent', data.userAgent));
             personDetailsDisplay.appendChild(displayDetailItem('Finance', `${data.creditCardType} ${data.creditCardNum} (Expires: ${data.creditCardExpires}, CVV: ${data.creditCardCvv})`));
             personDetailsDisplay.appendChild(displayDetailItem('Employment', `${data.occupation} at ${data.company}`));
             personDetailsDisplay.appendChild(displayDetailItem('Physical', `Height: ${data.height}, Weight: ${data.weight}`));

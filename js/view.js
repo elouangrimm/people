@@ -71,8 +71,6 @@ function displayDetails(data) {
 
     detailsGroup.appendChild(displayDetailItem('Address', (data.streetAddress && data.city && data.state && data.zipCode) ? `${escapeHtml(data.streetAddress)}<br>${escapeHtml(data.city)}, ${escapeHtml(data.state)} ${escapeHtml(data.zipCode)}` : escapeHtml(data.address)?.replace(/\n/g, '<br>'), true));
     detailsGroup.appendChild(displayDetailItem("Mother's Maiden Name", data.motherMaidenName));
-    detailsGroup.appendChild(displayDetailItem('SSN', data.ssn));
-    detailsGroup.appendChild(displayDetailItem('Geo Coordinates', (data.geo && data.geo.lat) ? `${escapeHtml(data.geo.lat)}, ${escapeHtml(data.geo.lon)}` : 'N/A'));
     detailsGroup.appendChild(displayDetailItem('Phone', data.phone));
     detailsGroup.appendChild(displayDetailItem('Country Code', data.countryCode));
     detailsGroup.appendChild(displayDetailItem('Birthday', data.birthday));
@@ -80,7 +78,6 @@ function displayDetails(data) {
     detailsGroup.appendChild(displayDetailItem('Email', data.email));
     detailsGroup.appendChild(displayDetailItem('Username', data.username));
     detailsGroup.appendChild(displayDetailItem('Password', data.password));
-    detailsGroup.appendChild(displayDetailItem('User Agent', data.userAgent, true));
     detailsGroup.appendChild(displayDetailItem('Finance', `${escapeHtml(data.creditCardType)} ${escapeHtml(data.creditCardNum)} (Expires: ${escapeHtml(data.creditCardExpires)}, CVV: ${escapeHtml(data.creditCardCvv)})`));
     detailsGroup.appendChild(displayDetailItem('Employment', `${escapeHtml(data.occupation)} at ${escapeHtml(data.company)}`));
     detailsGroup.appendChild(displayDetailItem('Physical', `Height: ${escapeHtml(data.height)}, Weight: ${escapeHtml(data.weight)}`));
@@ -145,16 +142,12 @@ function populateEditForm(data) {
         {label: 'State', id: 'state', value: data.state || ''},
         {label: 'Zip Code', id: 'zipCode', value: data.zipCode || ''},
         {label: "Mother's Maiden Name", id: 'motherMaidenName', value: data.motherMaidenName},
-        {label: 'SSN', id: 'ssn', value: data.ssn},
-        {label: 'Geo Latitude', id: 'geo_lat', value: data.geo ? data.geo.lat : ''},
-        {label: 'Geo Longitude', id: 'geo_lon', value: data.geo ? data.geo.lon : ''},
         {label: 'Phone', id: 'phone', value: data.phone},
         {label: 'Birthday', id: 'birthday', value: data.birthday},
         {label: 'Age', id: 'age', value: data.age},
         {label: 'Email', id: 'email', value: data.email},
         {label: 'Username', id: 'username', value: data.username},
         {label: 'Password', id: 'password', value: data.password},
-        {label: 'User Agent', id: 'userAgent', value: data.userAgent},
         {label: 'Credit Card Type', id: 'creditCardType', value: data.creditCardType},
         {label: 'Credit Card Number', id: 'creditCardNum', value: data.creditCardNum},
         {label: 'Credit Card Expires', id: 'creditCardExpires', value: data.creditCardExpires},
